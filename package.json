@@ -1,6 +1,6 @@
 {
   "name": "crumble",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "NodeJS application of banking forecasts",
   "main": "crumble.js",
   "scripts": {
