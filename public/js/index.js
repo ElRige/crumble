@@ -8,7 +8,7 @@ $(document).ready( function() {
 		inDuration: 300,
 		outDuration: 225,
 		constrain_width: false,
-		hover: false,
+		hover: true,
 		gutter: 0,
 		belowOrigin: true,
 		alignment: 'left'

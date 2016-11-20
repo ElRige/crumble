@@ -21,7 +21,7 @@ function init(socket) {
 		operations = operations.concat(data).sort(sortByDateDesc);
 		if (operations.length < 1) {
 			toast('Aucune opération ce mois');
-			$('#balance')[0].innerHTML = 0;
+			$('#balance')[0].innerHTML = '';
 			fillOperations('');
 			return;
 		}
