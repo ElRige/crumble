@@ -21,9 +21,14 @@ function getCategories(callback) {
 	});
 }
 
-function getOperations(callback) {
-	const viewUrl = '_design/operations/_view/all';
-	couch.get(dbName,viewUrl, {}).then(({data, headers, status}) => {
+function getOperations(data, callback) {
+
+	const viewUrl = '_design/operations/_view/date';
+	const queryOptions = {
+		startkey: data.startDate,
+		endkey: data.endDate
+	};
+	couch.get(dbName,viewUrl, queryOptions).then(({data, headers, status}) => {
 		if (status !== 200) {
 			console.log(status);
 			console.log(data);

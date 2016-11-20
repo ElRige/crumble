@@ -29,8 +29,8 @@ io.sockets.on('connection', function(socket) {
 		});
 	});
 
-	socket.on('operations_get', function() {
-		var operations = requestLauncher.getOperations(function(operations) {
+	socket.on('operations_get', function(data) {
+		var operations = requestLauncher.getOperations(data, function(operations) {
 			socket.emit('operations', operations);
 		});
 	});

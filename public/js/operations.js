@@ -5,7 +5,7 @@ function init(socket) {
 	$('.modal').modal();
 	$('select').material_select();
 
-	socket.emit('operations_get');
+	socket.emit('operations_get', {startDate:startDate, endDate:endDate});
 	socket.emit('categories_get');
 
 	$('#add_operation').submit(function () {

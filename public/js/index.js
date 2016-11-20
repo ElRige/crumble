@@ -1,3 +1,7 @@
+const now = new Date();
+var startDate = new Date(now.getFullYear(), now.getMonth(), 1+1);
+var endDate = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59, 999);
+
 $(document).ready( function() {
 
 	$('#dropdownMonthButton').dropdown( {
