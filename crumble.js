@@ -21,7 +21,6 @@ const io = require('socket.io').listen(app.listen(8888, function() {
 }));
 
 io.sockets.on('connection', function(socket) {
-	console.log('New socket');
 
 	socket.on('categories_get', function() {
 		var operations = requestLauncher.getCategories(function(categories) {

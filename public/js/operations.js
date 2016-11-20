@@ -1,15 +1,12 @@
-var operations = new Array();
+var operations = [];
 
 function init(socket) {
 
 	$('.modal').modal();
 	$('select').material_select();
 
-	socket.emit('operations_get', {startDate:startDate, endDate:endDate});
-	socket.emit('categories_get');
-
 	$('#add_operation').submit(function () {
-		var date = formatDateAsInternational ($('#date')[0].value);
+		var date = formatDateAsInternational($('#date')[0].value);
 		var operation = {
 			label: $('#label')[0].value,
 			amount: $('#amount')[0].value,
@@ -19,12 +16,15 @@ function init(socket) {
 		socket.emit('operation_add', operation);
 	});
 
-	socket.on('categories', function(data) {
-		$('#category').autocomplete( {data: data} );
-	});
-
 	socket.on('operations', function(data) {
+
 		operations = operations.concat(data).sort(sortByDateDesc);
+		if (operations.length < 1) {
+			toast('Aucune opération ce mois');
+			$('#balance')[0].innerHTML = 0;
+			fillOperations('');
+			return;
+		}
 		var tmpHtml= '', balance = 0;
 		for (i in operations) {
 			balance += operations[i].amount;
@@ -47,4 +47,13 @@ function fillOperations(htmlData) {
 	//var div = document.createElement('div');
 	operationsDiv.innerHTML = htmlData;
 	//operationsDiv.appendChild(div);
+}
+
+function setMonth() {
+	operations = [];
+	socket.emit('operations_get', {startDate:startDate, endDate:endDate});
+}
+
+function setCategories(data) {
+	$('#category').autocomplete( {data: data} );
 }

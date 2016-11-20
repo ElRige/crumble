@@ -1,27 +1,64 @@
-const now = new Date();
-var startDate = new Date(now.getFullYear(), now.getMonth(), 1+1);
-var endDate = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59, 999);
+const months = [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décrembre' ];
+var month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+var socket, startDate, endDate;
 
 $(document).ready( function() {
 
 	$('#dropdownMonthButton').dropdown( {
 		inDuration: 300,
 		outDuration: 225,
-		constrain_width: true,
+		constrain_width: false,
 		hover: false,
 		gutter: 0,
 		belowOrigin: true,
 		alignment: 'left'
 	});
 
-	var socket = io.connect('http://localhost:8888');
+	socket = io.connect('http://localhost:8888');
+
+	socket.emit('categories_get');
 
 	socket.on('info', function(data) {
-		Materialize.toast(data.message, 4000);
+		toast(data.message);
+	});
+
+	socket.on('categories', function(data) {
+		setCategories(data);
 	});
 
 	init(socket);
+	changeMonth(month);
+
+	$('#dropdownMonthPrevious').click(function() { changeMonth('PREVIOUS') });
+	$('#dropdownMonthNext').click(function() { changeMonth('NEXT') });
 });
+
+function toast(message) {
+	Materialize.toast(message, 5000);
+}
+
+function changeMonth(data) {
+
+	switch (data) {
+		case 'PREVIOUS':
+		month.setMonth(month.getMonth()-1);
+		break;
+		case 'NEXT':
+		month.setMonth(month.getMonth()+1);
+		break;
+		default:
+		month = data;
+		break;
+	}
+	startDate = new Date(month);
+	endDate = new Date(month.getFullYear(), month.getMonth()+1, 0, 23, 59, 59, 999);
+	document.getElementById('dropdownMonthTitle').innerHTML = months[month.getMonth()] + ' ' + month.getFullYear();
+	setMonth();
+}
+
+
+
+
 
 function formatDigit(tmp, nb) {
 	var str = tmp.toString();
