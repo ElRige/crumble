@@ -37,7 +37,12 @@ function init(socket) {
 		$('#modal_add_operation').modal('close');
 		setTimeout(function() {
 			var tmp =$('#operations').children();
-			for (i in tmp) { tmp[i].className = ''; }
+			for (i in tmp) {
+				tmp[i].className = '';
+			}
+			for (i in operations) {
+				operations[i].newItem = '';
+			}
 		}, 5000);
 	});
 }
