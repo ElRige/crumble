@@ -1,14 +1,15 @@
 const express = require('express');
+const userService = require('./service/userService');
+const operationService = require('./service/operationService');
+
 const app = express();
-const requestLauncher = require('./requestLauncher');
 
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
 app.use(express.static('views'));
-
+app.use(express.static('public'));
 
 app.get('/operations', function(req, res) {
-	res.render('operations.ejs', {test: 'test'});
+	res.render('operations.ejs');
 });
 
 app.use(function(req, res, next){
@@ -23,25 +24,14 @@ const io = require('socket.io').listen(app.listen(8888, function() {
 io.sockets.on('connection', function(socket) {
 
 	socket.on('categories_get', function() {
-		var operations = requestLauncher.getCategories(function(categories) {
-			socket.emit('categories', categories);
-		});
+		userService.getCategories(socket);
 	});
 
 	socket.on('operations_get', function(data) {
-		var operations = requestLauncher.getOperations(data, function(operations) {
-			socket.emit('operations', operations);
-		});
+		operationService.getAll(socket, data);
 	});
 
 	socket.on('operation_add', function(operation) {
-		operation.amount = operation.amount * 100;
-		requestLauncher.saveOperation(operation, function(status) {
-			var message = (status === 201 ? 'Opération ajoutée !' : 'Une erreur c\'est produite');
-			operation.newItem = 'newItem';
-			socket.emit('operations', [ operation ]);
-			socket.emit('info', {message: message});
-		});
+		operationService.add(socket, operation);
 	});
-
 });

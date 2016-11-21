@@ -7,7 +7,7 @@ const couch = new NodeCouchDb({
 });
 const dbName = 'crumble';
 
-function getCategories(callback) {
+var getCategories = function(callback) {
 	const viewUrl = '_design/enum/_view/categories';
 	couch.get(dbName,viewUrl, {}).then(({data, headers, status}) => {
 		if (status !== 200) {
@@ -21,7 +21,7 @@ function getCategories(callback) {
 	});
 }
 
-function getOperations(data, callback) {
+var getOperations = function(data, callback) {
 
 	const viewUrl = '_design/operations/_view/date';
 	const queryOptions = {
@@ -45,7 +45,7 @@ function getOperations(data, callback) {
 	});
 }
 
-function saveOperation(operation, callback) {
+var saveOperation = function(operation, callback) {
 
 	couch.insert(dbName, {
 		_id: function() { return couch.uniqid(); },
