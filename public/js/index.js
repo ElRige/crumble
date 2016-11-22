@@ -4,6 +4,7 @@ var socket, startDate, endDate;
 
 $(document).ready( function() {
 
+	$(".button-collapse").sideNav();
 	$('#dropdownMonthButton').dropdown( {
 		inDuration: 300,
 		outDuration: 225,
