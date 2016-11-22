@@ -11,6 +11,9 @@ app.use(express.static('public'));
 app.get('/operations', function(req, res) {
 	res.render('operations.ejs');
 });
+app.get('/test', function(req, res) {
+	res.render('test.ejs');
+});
 
 app.use(function(req, res, next){
 	res.setHeader('Content-Type', 'text/plain');
