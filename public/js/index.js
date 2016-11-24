@@ -4,8 +4,8 @@ var socket, startDate, endDate;
 
 $(document).ready( function() {
 
-	$(".button-collapse").sideNav();
-	$('#dropdownMonthButton').dropdown( {
+	$('.button-collapse').sideNav();
+	$('.dropdownMonthButton').dropdown({
 		inDuration: 300,
 		outDuration: 225,
 		constrain_width: false,
@@ -30,8 +30,8 @@ $(document).ready( function() {
 	init(socket);
 	changeMonth(month);
 
-	$('#dropdownMonthPrevious').click(function() { changeMonth('PREVIOUS') });
-	$('#dropdownMonthNext').click(function() { changeMonth('NEXT') });
+	$('.dropdownMonthPrevious').click(function() { changeMonth('PREVIOUS') });
+	$('.dropdownMonthNext').click(function() { changeMonth('NEXT') });
 });
 
 function toast(message) {
@@ -53,14 +53,13 @@ function changeMonth(data) {
 	}
 	startDate = new Date(month);
 	endDate = new Date(month.getFullYear(), month.getMonth()+1, 0, 23, 59, 59, 999);
-	document.getElementById('dropdownMonthTitle').innerHTML = months[month.getMonth()] + ' ' + month.getFullYear();
+	for (i in $('.dropdownMonthTitle')) {
+		$('.dropdownMonthTitle')[i].innerHTML = months[month.getMonth()] + ' ' + month.getFullYear();
+	}
 	setMonth();
 }
 
-
-
-
-
+/* Utils */
 function formatDigit(tmp, nb) {
 	var str = tmp.toString();
 	if (str.length < nb) {
@@ -83,7 +82,7 @@ function formatDateAsInternational(tmp) {
 
 function formatAmount(amount) {
 	var unitStr = '';
-	var amountArray = (amount / 100).toFixed(2).toString().split(".");
+	var amountArray = (amount / 100).toFixed(2).toString().split('.');
 	for (var i = 0; i <= amountArray[0].length - 1; i++) {
 		unitStr += amountArray[0][i];
 		if (i%3 == 0 && i < amountArray[0].length -1) {
@@ -98,3 +97,4 @@ function sortByDateDesc(a, b) {
 	if (a.date < b.date) return 1;
 	return 0;
 }
+/* !Utils */

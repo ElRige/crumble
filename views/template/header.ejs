@@ -1,42 +1,59 @@
 <header>
-	<ul id="dropdownMonth" class="dropdown-content">
-		<li><a id="dropdownMonthPrevious">Mois précédent</a></li>
-		<li><a id="dropdownMonthNext">Mois suivant</a></li>
+	<ul id="dropdownMonthTop" class="dropdown-content">
+		<li class="autocomplete">
+			<div class="monthSelect-card">
+				<input id="monthSelect" placeholder="Mois Année">
+				<i class="material-icons">search</i>
+			</div>
+		</li>
 	</ul>
 	<div class="navbar-fixed">
 		<nav>
 			<div class="container">
 				<div class="nav-wrapper">
-					<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+					<a href="" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 					<a href="#" class="brand-logo center">Crumble</a>
 					<ul class="right hide-on-small-only">
-						<li><a class="dropdown-button" id="dropdownMonthButton" href="#!" data-activates="dropdownMonth"><span id="dropdownMonthTitle"></span><i class="material-icons right">arrow_drop_down</i></a></li>
+						<li><a class="nav-arrow dropdownMonthPrevious"><i class="material-icons">arrow_left</i></a></li>
+						<li><a class="dropdownMonthButton" data-activates="dropdownMonthTop"><span class="dropdownMonthTitle"></span></a></li>
+						<li><a class="nav-arrow dropdownMonthNext"><i class="material-icons">arrow_right</i></a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 	</div>
-
 	<ul id="slide-out" class="side-nav fixed">
-		<li class="logo">
-			<a id="logo-container" class="brand-logo">Crumble</a>
-		</li>
-		<li class="search">
-			<div class="search-wrapper card">
-				<input id="search"><i class="material-icons">search</i>
-				<div class="search-results"></div>
+		<li>
+			<div class="navbar-fixed">
+				<nav>
+					<ul>
+						<li class="left"><a class="nav-arrow dropdownMonthPrevious"><i class="material-icons">arrow_left</i></a></li>
+						<li class="dropdownMonthButtonContainer">
+							<a class="dropdownMonthButton" href="#!" data-activates="dropdownMonthLeft">
+								<span class="dropdownMonthTitle"></span>
+							</a>
+						</li>
+						<li class="right"><a class="nav-arrow dropdownMonthNext"><i class="material-icons">arrow_right</i></a></li>
+						<div style="clear:both;"></div>
+					</ul>
+					<ul id="dropdownMonthLeft" class="dropdown-content">
+						<li class="autocomplete">
+							<div class="monthSelect-card">
+								<input id="monthSelect" placeholder="Mois Année">
+								<i class="material-icons">search</i>
+							</div>
+						</li>
+					</ul>
+				</nav>
 			</div>
 		</li>
-		<li><a></a></li>
-		<li><a href="#!"><i class="material-icons"><i class="material-icons">dashboard</i></i>Tableau de bord</a></li>
-		<li><div class="divider"></div></li>
+		<li class="no-hover"><a></a></li>
 		<li><a class="subheader">Mes Vues</a></li>
 		<li><a class="waves-effect" href="/operations"><i class="material-icons">list</i>Opérations</a></li>
-		<li><a class="waves-effect" href="/goals"><i class="material-icons">golf_course</i><i class="material-icons">widgets</i>Objectifs</a></li>
-		<li><a class="subheader">Paramètres</a></li>
-		<li><a class="waves-effect" href="/recurrent"><i class="material-icons">loop</i>Opérations Récurrentes</a></li>
-		<li><a class="waves-effect" href="/preventive"><i class="material-icons">money_off</i><i class="material-icons">security</i>Opérations Préventives</a></li>
+		<li><a class="waves-effect" href="/goals"><i class="material-icons">dashboard</i>Objectifs</a></li>
+		<li><a class="subheader">Mes Paramètres</a></li>
+		<li><a class="waves-effect" href="/recurrent"><i class="material-icons">loop</i>Récurrence</a></li>
+		<li><a class="waves-effect" href="/preventive"><i class="material-icons">security</i>Prévoyance</a></li>
 		<li><a class="waves-effect" href="/account"><i class="material-icons">person</i>Mon compte</a></li>
 	</ul>
-
 </header>
