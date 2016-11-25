@@ -1,16 +1,24 @@
 const express = require('express');
 const userService = require('./service/userService');
 const operationService = require('./service/operationService');
+const settingsRoute = require('./route/settingsRoute');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 app.use(express.static('views'));
-app.use(express.static('public'));
+app.use('/static', express.static('public'));
 
+app.get('/', function(req, res) {
+	res.redirect(303, '/operations');
+});
 app.get('/operations', function(req, res) {
 	res.render('operations.ejs');
 });
+app.get('/goals', function(req, res) {
+	res.render('goals.ejs');
+});
+app.use('/settings', settingsRoute);
 app.get('/test', function(req, res) {
 	res.render('test.ejs');
 });
@@ -20,8 +28,9 @@ app.use(function(req, res, next){
 	res.status(404).send('Page introuvable !');
 });
 
-const io = require('socket.io').listen(app.listen(8888, function() {
-	console.log('Server Started on Port 8888');
+const port = 8888;
+const io = require('socket.io').listen(app.listen(port, function() {
+	console.log('Server Started on Port ' + port);
 }));
 
 io.sockets.on('connection', function(socket) {
