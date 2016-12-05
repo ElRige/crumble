@@ -1,5 +1,4 @@
 const months = [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décrembre' ];
-var month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 var socket, startDate, endDate;
 
 $(document).ready( function() {
@@ -28,7 +27,6 @@ $(document).ready( function() {
 	});
 
 	init(socket);
-	changeMonth(month);
 
 	$('.dropdownMonthPrevious').click(function() { changeMonth('PREVIOUS') });
 	$('.dropdownMonthNext').click(function() { changeMonth('NEXT') });
@@ -36,27 +34,6 @@ $(document).ready( function() {
 
 function toast(message) {
 	Materialize.toast(message, 5000);
-}
-
-function changeMonth(data) {
-
-	switch (data) {
-		case 'PREVIOUS':
-		month.setMonth(month.getMonth()-1);
-		break;
-		case 'NEXT':
-		month.setMonth(month.getMonth()+1);
-		break;
-		default:
-		month = data;
-		break;
-	}
-	startDate = new Date(month);
-	endDate = new Date(month.getFullYear(), month.getMonth()+1, 0, 23, 59, 59, 999);
-	for (i in $('.dropdownMonthTitle')) {
-		$('.dropdownMonthTitle')[i].innerHTML = months[month.getMonth()] + ' ' + month.getFullYear();
-	}
-	setMonth();
 }
 
 /* Utils */

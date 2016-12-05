@@ -1,6 +1,7 @@
 const express = require('express');
 const userService = require('./service/userService');
 const operationService = require('./service/operationService');
+const recurrenceService = require('./service/recurrenceService');
 const settingsRoute = require('./route/settingsRoute');
 
 const app = express();
@@ -45,5 +46,9 @@ io.sockets.on('connection', function(socket) {
 
 	socket.on('operation_add', function(operation) {
 		operationService.add(socket, operation);
+	});
+
+	socket.on('recurrence_add', function(recurrence) {
+		recurrenceService.add(socket, recurrence);
 	});
 });

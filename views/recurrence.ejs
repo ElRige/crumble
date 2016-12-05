@@ -1,4 +1,4 @@
-<% var title = 'Reccurence' %>
+<% var title = 'Récurrence', id = 'recurrence' %>
 <!doctype html>
 <html>
 <%- include('template/head', {title: title}); %>
@@ -8,10 +8,25 @@
 	<main class="container">
 
 		<h1><%=title%></h1>
+		<table class="striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th data-field="label" class="center-align">Libellé</th>
+					<th data-field="category" class="center-align hide-on-small-only">Catégorie</th>
+					<th data-field="date" class="center-align">Jour du mois</th>
+					<th data-field="price" class="center-align">Montant</th>
+				</tr>
+			</thead>
+			<tbody id="listItem">
+			</tbody>
+		</table>
+
+		<%- include('template/modalAdd', {id: id}); %>
 
 	</main>
 
 	<%- include('template/footer'); %>
-	<script type="text/javascript" src="/static/js/reccurence.js"></script>
+	<script type="text/javascript" src="/static/js/recurrence.js"></script>
 </body>
 </html>
