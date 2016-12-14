@@ -4,14 +4,51 @@ const operationService = require('./service/operationService');
 const recurrenceService = require('./service/recurrenceService');
 const settingsRoute = require('./route/settingsRoute');
 
+var http = require('http');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+var SuperLogin = require('superlogin');
+
 const app = express();
 
 app.set('view engine', 'ejs');
 app.use(express.static('views'));
 app.use('/static', express.static('public'));
 
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+var config = {
+	dbServer: {
+		protocol: 'http://',
+		host: 'localhost:5984',
+		user: 'admin',
+		password: 'passw0rd',
+		userDB: 'sl-users',
+		couchAuthDB: '_users'
+	},
+	local: {
+		emailUsername: true
+	},
+	userDBs: {
+		defaultDBs: {
+			private: ['crumble']
+		}
+	}
+}
+var superlogin = new SuperLogin(config);
+// Mount SuperLogin's routes to our app 
+app.use('/auth', superlogin.router);
+
+
+
 app.get('/', function(req, res) {
 	res.redirect(303, '/operations');
+});
+app.get('/login', function(req, res) {
+	res.render('login.ejs');
 });
 app.get('/operations', function(req, res) {
 	res.render('operations.ejs');

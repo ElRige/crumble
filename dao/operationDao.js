@@ -1,11 +1,4 @@
-const NodeCouchDb = require('node-couchdb');
-const couch = new NodeCouchDb({
-	auth: {
-		user: 'admin',
-		pass: 'passw0rd'
-	}
-});
-const dbName = 'crumble';
+const launcher = require('./requestLauncher');
 
 var getCategories = function(callback) {
 	const viewUrl = '_design/enum/_view/categories';
@@ -45,11 +38,11 @@ var getOperations = function(data, callback) {
 	});
 }
 
-var insert = function(object, callback) {
+var saveOperation = function(operation, callback) {
 
 	couch.insert(dbName, {
 		_id: function() { return couch.uniqid(); },
-		field: object
+		field: operation
 	}).then(({data, headers, status}) => {
 		if (status !== 201) {
 			console.log(status);
@@ -57,11 +50,11 @@ var insert = function(object, callback) {
 		}
 		callback(status);
 	}, err => {
-		console.log('insert ERROR');
+		console.log('saveOperation ERROR');
 		console.log(err);
 	});
 }
 
 exports.getCategories = getCategories;
 exports.getOperations = getOperations;
-exports.insert = insert;
+exports.saveOperation = saveOperation;

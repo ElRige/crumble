@@ -9,7 +9,7 @@ var getAll = function(socket, data) {
 var add = function(socket, operation) { 
 	operation.amount = operation.amount * 100;
 
-	requestLauncher.saveOperation(operation, function(status) {
+	requestLauncher.insert(operation, function(status) {
 		var message = (status === 201 ? 'Opération ajoutée !' : 'Une erreur c\'est produite');
 		operation.newItem = 'newItem';
 		socket.emit('operations', [ operation ]);

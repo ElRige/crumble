@@ -1,0 +1,69 @@
+<% var title = 'Identification' %>
+<!doctype html>
+<html>
+<%- include('template/head', {title: title}); %>
+<body id="login">
+
+	<div class="navbar-fixed">
+		<nav>
+			<div class="container">
+				<div class="nav-wrapper">
+					<a href="#" class="brand-logo">Crumble</a>
+					<ul class="right hide-on-small-only">
+						<li><a onclick="displayConnect(true);">Se connecter</a></li>
+						<li><a onclick="displayConnect(false);">Créer un compte</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+	<main class="container">
+
+		<div class="row">
+			<div class="col s12 m6 l4 offset-l4" id="connect">
+				<h3>Se connecter</h3>
+				<form action="javascript:void(0);">
+					<div class="input-field col s12">
+						<input type="email" class="validate" id="email" name="email" required="required">
+						<label for="email">Compte</label>
+					</div>
+					<div class="input-field col s12">
+						<input type="password" class="validate" id="password" name="password" required="required">
+						<label for="password">Mot de passe</label>
+					</div>
+					<button class="btn waves-effect waves-light" type="submit" onclick="login()">Connexion<i class="material-icons right">send</i></button>
+				</form>
+			</div>
+
+			<div class="col s12 m6 l4 offset-l4" id="register">
+				<h3>Créer un compte</h3>
+				<form action="javascript:void(0);">
+					<div class="input-field col s12">
+						<input type="email" class="validate" id="registerEmail" name="registerEmail" required="required">
+						<label for="registerEmail">Adresse e-mail</label>
+					</div>
+					<div class="input-field col s12">
+						<input type="email" class="validate" id="registerConfirmEmail" name="registerConfirmEmail" required="required">
+						<label for="registerConfirmEmail">Confirmez adresse e-mail</label>
+					</div>
+					<div class="input-field col s12">
+						<input type="password" class="validate" id="registerPassword" name="registerPassword" required="required">
+						<label for="registerPassword">Mot de passe</label>
+					</div>
+					<div class="input-field col s12">
+						<input type="password" class="validate" id="registerConfirmPassword" name="registerConfirmPassword" required="required">
+						<label for="registerConfirmPassword">Confirmez mot de passe</label>
+					</div>
+					<button class="btn waves-effect waves-light" type="submit" onclick="register()">Création<i class="material-icons right">send</i></button>
+				</form>
+			</div>
+		</div>
+
+	</main>
+
+	<%- include('template/footer'); %>
+	<script type="text/javascript" src="/static/js/restapi.js"></script>
+	<script type="text/javascript" src="/static/js/login.js"></script>
+</body>
+</html>
