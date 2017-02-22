@@ -7,7 +7,7 @@ function setCategories() {
 }
 
 function setMonth() {
-	
+
 }
 
 
@@ -23,27 +23,23 @@ function defaultError(xhr) {
 
 function login() {
 
-	var email = document.getElementById('email').value;
+	var username = document.getElementById('username').value;
 	var password = document.getElementById('password').value;
 
 	function success(xhr) {
 		window.location = urls.operations;
 	}
-	restapi.auth.login(email, password, success, defaultError);
+	restapi.auth.login(username, password, success, defaultError);
 }
 
 function register() {
 
+	var username = document.getElementById('registerUsername').value;
 	var email = document.getElementById('registerEmail').value;
-	var confirmEmail = document.getElementById('registerConfirmEmail').value;
 	var password = document.getElementById('registerPassword').value;
 	var confirmPassword = document.getElementById('registerConfirmPassword').value;
 
-	if (email != confirmEmail) {
-		toast('Vos adresse email ne correspondent pas');
-		return;
-	} 
-	else if (password != confirmPassword) {
+	if (password != confirmPassword) {
 		toast('Vos mot de passe ne correspondent pas');
 		return;
 	}
@@ -52,7 +48,7 @@ function register() {
 		toast('Compte créé, vous pouvez maintenant vous connecter');
 		displayConnect(true);
 	}
-	restapi.auth.register(email, password, confirmPassword, success, defaultError);
+	restapi.users.create(username, email, password, success, defaultError);
 }
 
 function displayConnect(isConnect) {

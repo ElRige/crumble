@@ -1,7 +1,7 @@
-const months = [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décrembre' ];
+const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décrembre'];
 var socket, startDate, endDate;
 
-$(document).ready( function() {
+$(document).ready(function () {
 
 	$('.button-collapse').sideNav();
 	$('.dropdownMonthButton').dropdown({
@@ -14,22 +14,23 @@ $(document).ready( function() {
 		alignment: 'left'
 	});
 
+
 	socket = io.connect('http://localhost:8888');
 
 	socket.emit('categories_get');
 
-	socket.on('info', function(data) {
+	socket.on('info', function (data) {
 		toast(data.message);
 	});
 
-	socket.on('categories', function(data) {
+	socket.on('categories', function (data) {
 		setCategories(data);
 	});
 
 	init(socket);
 
-	$('.dropdownMonthPrevious').click(function() { changeMonth('PREVIOUS') });
-	$('.dropdownMonthNext').click(function() { changeMonth('NEXT') });
+	$('.dropdownMonthPrevious').click(function () { changeMonth('PREVIOUS') });
+	$('.dropdownMonthNext').click(function () { changeMonth('NEXT') });
 });
 
 function toast(message) {
@@ -49,7 +50,7 @@ function formatDigit(tmp, nb) {
 
 function formatDateAsString(tmp) {
 	var date = new Date(tmp);
-	return formatDigit(date.getDate(), 2) + '/' + formatDigit((date.getMonth() + 1), 2)  + '/' + date.getFullYear();
+	return formatDigit(date.getDate(), 2) + '/' + formatDigit((date.getMonth() + 1), 2) + '/' + date.getFullYear();
 }
 
 function formatDateAsInternational(tmp) {
@@ -62,8 +63,8 @@ function formatAmount(amount) {
 	var amountArray = (amount / 100).toFixed(2).toString().split('.');
 	for (var i = 0; i <= amountArray[0].length - 1; i++) {
 		unitStr += amountArray[0][i];
-		if (i%3 == 0 && i < amountArray[0].length -1) {
-			unitStr+= ' ';
+		if (i % 3 == 0 && i < amountArray[0].length - 1) {
+			unitStr += ' ';
 		}
 	}
 	return unitStr + ',' + amountArray[1] + '€';

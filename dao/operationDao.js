@@ -1,60 +1,24 @@
-const launcher = require('./requestLauncher');
+const knex = require('knex')({
+    dialect: 'sqlite3',
+    connection: {
+        filename: 'crumble.sqlite'
+    },
+    useNullAsDefault: true,
+    debug: true
+});
 
-var getCategories = function(callback) {
-	const viewUrl = '_design/enum/_view/categories';
-	couch.get(dbName,viewUrl, {}).then(({data, headers, status}) => {
-		if (status !== 200) {
-			console.log(status);
-			console.log(data);
-		}
-		callback(data.rows[0].value);
-	}, err => {
-		console.log('getCategories ERROR');
-		console.log(err);
-	});
+module.exports = {
+    table: 'operation',
+    insert: (operation, callback) => {
+        knex('operations')
+            .returning('id')
+            .insert(operation)
+            .then((data) => {
+                callback(data[0]);
+            })
+            .catch(function (e) {
+                console.error(e);
+                callback(e);
+            });
+    },
 }
-
-var getOperations = function(data, callback) {
-
-	const viewUrl = '_design/operations/_view/date';
-	const queryOptions = {
-		startkey: data.startDate,
-		endkey: data.endDate
-	};
-	couch.get(dbName,viewUrl, queryOptions).then(({data, headers, status}) => {
-		if (status !== 200) {
-			console.log(status);
-			console.log(data);
-		}
-		var operations = new Array();
-		for (i in data.rows) {
-			data.rows[i].value.newItem = '';
-			operations.push(data.rows[i].value);
-		}
-		callback(operations);
-	}, err => {
-		console.log('getOperation ERROR');
-		console.log(err);
-	});
-}
-
-var saveOperation = function(operation, callback) {
-
-	couch.insert(dbName, {
-		_id: function() { return couch.uniqid(); },
-		field: operation
-	}).then(({data, headers, status}) => {
-		if (status !== 201) {
-			console.log(status);
-			console.log(data);
-		}
-		callback(status);
-	}, err => {
-		console.log('saveOperation ERROR');
-		console.log(err);
-	});
-}
-
-exports.getCategories = getCategories;
-exports.getOperations = getOperations;
-exports.saveOperation = saveOperation;

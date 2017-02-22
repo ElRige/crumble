@@ -1,17 +1,17 @@
 <% var title = 'Mon Compte' %>
 <!doctype html>
 <html>
-<%- include('template/head', {title: title}); %>
-<body>
-	<%- include('template/header'); %>
+	<%- include('template/head', {title: title}); %>
 
-	<main class="container">
+	<body>
+		<%- include('template/header'); %>
 
-		<h1><%=title%></h1>
+		<main class="container">
+			<h1><%=title%></h1>
+		</main>
 
-	</main>
+		<%- include('template/footer'); %>
+		<script type="text/javascript" src="js/account.js"></script>
+	</body>
 
-	<%- include('template/footer'); %>
-	<script type="text/javascript" src="/static/js/account.js"></script>
-</body>
 </html>

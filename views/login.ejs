@@ -25,8 +25,8 @@
 				<h3>Se connecter</h3>
 				<form action="javascript:void(0);">
 					<div class="input-field col s12">
-						<input type="email" class="validate" id="email" name="email" required="required">
-						<label for="email">Compte</label>
+						<input type="text" class="validate" id="username" name="username" required="required">
+						<label for="username">Compte</label>
 					</div>
 					<div class="input-field col s12">
 						<input type="password" class="validate" id="password" name="password" required="required">
@@ -40,12 +40,12 @@
 				<h3>Créer un compte</h3>
 				<form action="javascript:void(0);">
 					<div class="input-field col s12">
-						<input type="email" class="validate" id="registerEmail" name="registerEmail" required="required">
-						<label for="registerEmail">Adresse e-mail</label>
+						<input type="text" class="validate" id="registerUsername" name="registerUsername" required="required">
+						<label for="registerUsername">Identifiant</label>
 					</div>
 					<div class="input-field col s12">
-						<input type="email" class="validate" id="registerConfirmEmail" name="registerConfirmEmail" required="required">
-						<label for="registerConfirmEmail">Confirmez adresse e-mail</label>
+						<input type="email" class="validate" id="registerEmail" name="registerEmail" required="required">
+						<label for="registerEmail">Adresse e-mail</label>
 					</div>
 					<div class="input-field col s12">
 						<input type="password" class="validate" id="registerPassword" name="registerPassword" required="required">
@@ -63,7 +63,7 @@
 	</main>
 
 	<%- include('template/footer'); %>
-	<script type="text/javascript" src="/static/js/restapi.js"></script>
-	<script type="text/javascript" src="/static/js/login.js"></script>
+	<script type="text/javascript" src="js/restapi.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
 </body>
 </html>
