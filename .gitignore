@@ -1,5 +1,6 @@
 #my
 .eslintrc.js
+crumble.sqlite
 
 # Logs
 logs
