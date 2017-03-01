@@ -36,6 +36,12 @@ module.exports = () => {
                 table.date('date').notNullable();
                 table.integer('amount').notNullable();
             })
+            .createTableIfNotExists('autologin', function (table) {
+                table.increments('id');
+                table.integer('userId').notNullable();
+                table.foreign('userId').references('users.id');
+                table.uuid('token').notNullable();
+            })
             .catch(function (e) {
                 console.error(e);
             });

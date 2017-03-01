@@ -7,10 +7,11 @@ const knex = require('knex')({
     debug: true
 });
 
+const table = 'operations';
+
 module.exports = {
-    table: 'operation',
     insert: (operation, callback) => {
-        knex('operations')
+        knex(table)
             .returning('id')
             .insert(operation)
             .then((data) => {
@@ -21,4 +22,11 @@ module.exports = {
                 callback(e);
             });
     },
+    selectByUserId: (userId, callback) => {
+        knex(table)
+            .where('userId', userId)
+            .asCallback((err, operations) => {
+                callback(err, operations);
+            });
+    }
 }

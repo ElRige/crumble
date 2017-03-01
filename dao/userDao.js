@@ -3,8 +3,8 @@ const knex = require('knex')({
     connection: {
         filename: 'crumble.sqlite'
     },
-    useNullAsDefault: true
-    //debug: true
+    useNullAsDefault: true,
+    debug: true
 });
 
 const table = 'users';
@@ -17,9 +17,24 @@ module.exports = {
                 callback(err, id);
             });
     },
+    selectPassword: (email, callback) => {
+        knex.select('password')
+            .from(table)
+            .where('email', email)
+            .asCallback((err, datas) => {
+                callback(err, datas[0].password);
+            });
+    },
     selectByEmail: (email, callback) => {
         knex(table)
             .where('email', email)
+            .asCallback((err, users) => {
+                callback(err, users[0]);
+            });
+    },
+    selectById: (id, callback) => {
+        knex(table)
+            .where('id', id)
             .asCallback((err, users) => {
                 callback(err, users[0]);
             });

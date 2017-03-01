@@ -31,4 +31,9 @@ module.exports = {
 			callback(operation);
 		});
 	},
+	getAll: (userId, callback) => {
+		operationDao.selectByUserId(userId, (err, operations) => {
+			callback(err, operations);
+		});
+	}
 }

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+
 const operationService = require('../../service/operationService');
 
 router.post('/', (req, res, next) => {
@@ -8,8 +9,12 @@ router.post('/', (req, res, next) => {
     });
 });
 router.get('/', (req, res, next) => {
-    // TODO getOperations
-    console.log('TODO : getOperations');
+    operationService.getAll(req.session.user.id, (err, operations) => {
+        if (err) {
+            return next(err);
+        }
+        res.send({ operations: operations });
+    });
 });
 router.get('/:id', (req, res, next) => {
     // TODO getOperation
