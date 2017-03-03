@@ -79,6 +79,9 @@ app.use('/settings', settingsRoute);
 app.get('/test', function (req, res) {
     res.render('test.ejs');
 });
+app.get('/mdl', function (req, res) {
+    res.render('mdl.ejs');
+});
 
 /** 
  * Rest API routes
