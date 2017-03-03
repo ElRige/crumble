@@ -1,92 +1,93 @@
-var operations = [];
-var month = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+var obj = {
+    operations: [],
+    startDate: null,
+    endDate: null,
+    month: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    action: {
+        getOperations: function () {
+            obj.operations = [];
+            var success = function (json) {
+                console.log(json);
+                obj.operations = obj.operations.concat(json.operations).sort(sortDescBy('date'));
+                obj.display.operations();
+            };
+            restapi.operations.list(obj.startDate, obj.endDate, success, defaultError);
+        },
+        addOperation: function () {
+            var operation = {
+                label: $('#label')[0].value,
+                amount: $('#amount')[0].value,
+                date: useful.formatDateAsInternational($('#date')[0].value),
+                category: $('#category')[0].value,
+            }
+            restapi.operations.add(operation, addOperationSuccess, defaultError);
+        },
+        setMonth: function (data) {
+            switch (data) {
+                case 'PREVIOUS':
+                    obj.month.setMonth(obj.month.getMonth() - 1);
+                    break;
+                case 'NEXT':
+                    obj.month.setMonth(obj.month.getMonth() + 1);
+                    break;
+                default:
+                    obj.month = data;
+                    break;
+            }
+            obj.startDate = new Date(obj.month);
+            obj.endDate = new Date(obj.month.getFullYear(), obj.month.getMonth() + 1, 0, 23, 59, 59, 999);
+        }
+    },
+
+    display: {
+        operations: function () {
+
+            var itemList = document.getElementById('operations');
+
+            if (obj.operations.length < 1) {
+                toast('Aucune opération ce mois');
+                $('#balance')[0].innerHTML = '';
+                itemList.innerHTML = '';
+                return;
+            }
+
+            var tmpHtml = '', balance = 0;
+            for (i in obj.operations) {
+                var op = obj.operations[i];
+                balance += op.amount;
+                op.dateStr = useful.formatDateAsString(op.date);
+                op.amountStr = useful.formatAmount(op.amount);
+                tmpHtml += new EJS({ url: '/template/line.ejs' }).render(op);
+            }
+            $('#balance')[0].innerHTML = useful.formatAmount(balance);
+            itemList.innerHTML = tmpHtml;
+            $('#modal_add_operation').modal('close');
+
+            setTimeout(function () {
+                var tmp = $('#operations').children();
+                for (i in tmp) {
+                    tmp[i].className = '';
+                }
+                for (i in obj.operations) {
+                    obj.operations[i].newItem = '';
+                }
+            }, 5000);
+
+        }
+    }
+};
 
 function init() {
 
     $('.modal').modal();
     $('select').material_select();
 
-    changeMonth(month);
-
-    $('#add_operation').submit(function () {
-        var date = formatDateAsInternational($('#date')[0].value);
-        var operation = {
-            label: $('#label')[0].value,
-            amount: $('#amount')[0].value,
-            date: date,
-            category: $('#category')[0].value,
-        }
-        //socket.emit('operation_add', operation);
-    });
-
-    var callback = function (json) {
-        console.log(json);
-    }
-    restapi.operations.list(callback, defaultError);
-
-	/*
-	socket.on('operations', function(data) {
-
-		operations = operations.concat(data).sort(sortByDateDesc);
-		var itemList = document.getElementById('operations');
-		
-		if (operations.length < 1) {
-			toast('Aucune opération ce mois');
-			$('#balance')[0].innerHTML = '';
-			itemList.innerHTML = '';
-			return;
-		}
-
-		var tmpHtml= '', balance = 0;
-		for (i in operations) {
-			balance += operations[i].amount;
-			operations[i].dateStr = formatDateAsString(operations[i].date);
-			operations[i].amountStr = formatAmount(operations[i].amount);
-			tmpHtml += new EJS({url: '/template/line.ejs'}).render(operations[i]);
-		}
-		$('#balance')[0].innerHTML = formatAmount(balance);
-		itemList.innerHTML = tmpHtml;
-		$('#modal_add_operation').modal('close');
-
-		setTimeout(function() {
-			var tmp =$('#operations').children();
-			for (i in tmp) {
-				tmp[i].className = '';
-			}
-			for (i in operations) {
-				operations[i].newItem = '';
-			}
-		}, 5000);
-	});
-	*/
+    obj.action.setMonth(obj.month);
+    obj.action.getOperations();
 }
 
-function changeMonth(data) {
-
-    switch (data) {
-        case 'PREVIOUS':
-            month.setMonth(month.getMonth() - 1);
-            break;
-        case 'NEXT':
-            month.setMonth(month.getMonth() + 1);
-            break;
-        default:
-            month = data;
-            break;
-    }
-    startDate = new Date(month);
-    endDate = new Date(month.getFullYear(), month.getMonth() + 1, 0, 23, 59, 59, 999);
-    for (i in $('.dropdownMonthTitle')) {
-        $('.dropdownMonthTitle')[i].innerHTML = months[month.getMonth()] + ' ' + month.getFullYear();
-    }
-    setMonth();
-}
-
-function setMonth() {
-    operations = [];
-    //socket.emit('operations_get', {startDate:startDate, endDate:endDate});
-}
-
+/*
 function setCategories(data) {
     $('#category').autocomplete({ data: data });
 }
+*/

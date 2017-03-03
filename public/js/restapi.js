@@ -68,11 +68,16 @@ var restapi = {
         }
     },
     operations: {
-        create: function (operation, success, error) {
+        add: function (operation, success, error) {
             restapi.send('POST', 'operations', operation, success, error);
         },
-        list: function (success, error) {
-            restapi.send('GET', 'operations', null, success, error);
+        list: function (startDate, endDate, success, error) {
+            var data = {
+                startDate: startDate,
+                endDate: endDate
+            };
+            console.log(data);
+            //restapi.send('GET', 'operations', data, success, error);
         },
     },
     send: function (method, url, data, successCallback, errorCallback) {
