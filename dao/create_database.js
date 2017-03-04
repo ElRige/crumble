@@ -20,11 +20,17 @@ module.exports = () => {
                 table.string('email').notNullable().unique();
                 table.string('password').notNullable();
             })
-            .createTableIfNotExists('operations_type', function (table) {
+            .createTableIfNotExists('autologin', function (table) {
+                table.increments('id');
+                table.integer('userId').notNullable();
+                table.foreign('userId').references('users.id');
+                table.uuid('token').notNullable();
+            })
+            .createTableIfNotExists('categories', function (table) {
                 table.increments('id');
                 table.integer('userId');
                 table.foreign('userId').references('users.id');
-                table.string('type');
+                table.string('category');
             })
             .createTableIfNotExists('operations', function (table) {
                 table.increments('id');
@@ -32,15 +38,9 @@ module.exports = () => {
                 table.integer('userId').notNullable();
                 table.foreign('userId').references('users.id');
                 table.string('label').notNullable();
-                table.string('type').notNullable();
+                table.string('category').notNullable();
                 table.date('date').notNullable();
                 table.integer('amount').notNullable();
-            })
-            .createTableIfNotExists('autologin', function (table) {
-                table.increments('id');
-                table.integer('userId').notNullable();
-                table.foreign('userId').references('users.id');
-                table.uuid('token').notNullable();
             })
             .catch(function (e) {
                 console.error(e);

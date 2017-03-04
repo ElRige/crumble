@@ -76,8 +76,7 @@ var restapi = {
                 startDate: startDate,
                 endDate: endDate
             };
-            console.log(data);
-            //restapi.send('GET', 'operations', data, success, error);
+            restapi.send('PUT', 'operations', data, success, error);
         },
     },
     send: function (method, url, data, successCallback, errorCallback) {

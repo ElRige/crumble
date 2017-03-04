@@ -6,21 +6,16 @@ var obj = {
     action: {
         getOperations: function () {
             obj.operations = [];
-            var success = function (json) {
-                console.log(json);
-                obj.operations = obj.operations.concat(json.operations).sort(sortDescBy('date'));
-                obj.display.operations();
-            };
-            restapi.operations.list(obj.startDate, obj.endDate, success, defaultError);
+            restapi.operations.list(obj.startDate, obj.endDate, obj.event.operation, defaultError);
         },
         addOperation: function () {
             var operation = {
                 label: $('#label')[0].value,
                 amount: $('#amount')[0].value,
-                date: useful.formatDateAsInternational($('#date')[0].value),
+                date: useful.formatFrenchDateAsDate($('#date')[0].value),
                 category: $('#category')[0].value,
             }
-            restapi.operations.add(operation, addOperationSuccess, defaultError);
+            restapi.operations.add(operation, obj.event.operation, defaultError);
         },
         setMonth: function (data) {
             switch (data) {
@@ -39,8 +34,21 @@ var obj = {
         }
     },
 
+    event: {
+        operation: function (json) {
+            console.log(json);
+
+            if (!Array.isArray(json)) {
+                json.newItem = true;
+            }
+
+            obj.operations = obj.operations.concat(json).sort(useful.sortDescBy('date'));
+            obj.display.operations();
+        }
+    },
+
     display: {
-        operations: function () {
+        operations: function (isNew) {
 
             var itemList = document.getElementById('operations');
 
@@ -57,6 +65,7 @@ var obj = {
                 balance += op.amount;
                 op.dateStr = useful.formatDateAsString(op.date);
                 op.amountStr = useful.formatAmount(op.amount);
+                op.newItem = op.newItem ? true : false;
                 tmpHtml += new EJS({ url: '/template/line.ejs' }).render(op);
             }
             $('#balance')[0].innerHTML = useful.formatAmount(balance);
@@ -84,6 +93,12 @@ function init() {
 
     obj.action.setMonth(obj.month);
     obj.action.getOperations();
+
+    document.getElementById('add_operation').addEventListener('click', obj.action.addOperation, false);
+}
+
+function test() {
+    alert('toto');
 }
 
 /*

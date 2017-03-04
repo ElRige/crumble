@@ -24,15 +24,15 @@ const Operation = require('../models/Operation');
 const operationDao = require('../dao/operationDao');
 
 module.exports = {
-	create: (params, callback) => {
-		let operation = new Operation(params.userId, params.label, params.type, params.date, params.amount);
+	add: (userId, params, callback) => {
+		let operation = new Operation(userId, params.label, params.category, params.date, params.amount);
 		operationDao.insert(operation, (id) => {
-			//operation.id = id
+			operation.id = id;
 			callback(operation);
 		});
 	},
-	getAll: (userId, callback) => {
-		operationDao.selectByUserId(userId, (err, operations) => {
+	getAll: (userId, params, callback) => {
+		operationDao.selectByUserId(userId, params.startDate, params.endDate, (err, operations) => {
 			callback(err, operations);
 		});
 	}

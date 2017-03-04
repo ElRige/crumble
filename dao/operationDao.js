@@ -22,9 +22,10 @@ module.exports = {
                 callback(e);
             });
     },
-    selectByUserId: (userId, callback) => {
+    selectByUserId: (userId, startDate, endDate, callback) => {
         knex(table)
             .where('userId', userId)
+            .andWhereBetween('date', [startDate, endDate])
             .asCallback((err, operations) => {
                 callback(err, operations);
             });
