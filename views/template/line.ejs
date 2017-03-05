@@ -1,7 +1,15 @@
 <tr class="<%=newItem ? 'teal lighten-3' : '' %>">
-	<td><a href=#><i class="material-icons tiny">edit</i></a></td>
-	<td><%=label%></td>
-	<td class="hide-on-small-only"><%=category%></td>
-	<td class="center-align"><%=dateStr%></td>
-	<td class="right-align"><%=amountStr%></td>
+	<td><a data-toggle="modal" data-target="#modal1"><i class="material-icons tiny">edit</i></a></td>
+	<td>
+		<%=label%>
+	</td>
+	<td class="hide-on-small-only">
+		<%=category%>
+	</td>
+	<td class="center-align">
+		<%=dateStr%>
+	</td>
+	<td class="right-align">
+		<%=amountStr%>
+	</td>
 </tr>

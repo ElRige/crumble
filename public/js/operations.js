@@ -17,6 +17,24 @@ var obj = {
             }
             restapi.operations.add(operation, obj.event.operation, defaultError);
         },
+        updateOperation: function () {
+            var operation = {
+                label: $('#label')[0].value,
+                amount: $('#amount')[0].value,
+                date: useful.formatFrenchDateAsDate($('#date')[0].value),
+                category: $('#category')[0].value,
+            }
+            restapi.operations.add(operation, obj.event.operation, defaultError);
+        },
+        deleteOperation: function () {
+            var operation = {
+                label: $('#label')[0].value,
+                amount: $('#amount')[0].value,
+                date: useful.formatFrenchDateAsDate($('#date')[0].value),
+                category: $('#category')[0].value,
+            }
+            restapi.operations.add(operation, obj.event.operation, defaultError);
+        },
         setMonth: function (data) {
             switch (data) {
                 case 'PREVIOUS':
@@ -36,12 +54,9 @@ var obj = {
 
     event: {
         operation: function (json) {
-            console.log(json);
-
             if (!Array.isArray(json)) {
                 json.newItem = true;
             }
-
             obj.operations = obj.operations.concat(json).sort(useful.sortDescBy('date'));
             obj.display.operations();
         }
@@ -70,7 +85,7 @@ var obj = {
             }
             $('#balance')[0].innerHTML = useful.formatAmount(balance);
             itemList.innerHTML = tmpHtml;
-            $('#modal_add_operation').modal('close');
+            $('#modal-operation').modal('close');
 
             setTimeout(function () {
                 var tmp = $('#operations').children();
@@ -88,17 +103,30 @@ var obj = {
 
 function init() {
 
-    $('.modal').modal();
+    $('#modal-operation').modal({
+        ready: function (e) {
+            var title = 'Ajouter une opération';
+            var confirm = 'Ajouter';
+
+            if ($('.modal-operation')[0].getAttribute('data-uuid') !== '0') {
+                title = 'Modifier une opération';
+                confirm = 'Modifier';
+                document.getElementById('modal-operation-delete').style.display = 'inline-block';
+            }
+
+            document.getElementById('modal-operation-title').innerHTML = title;
+            document.getElementById('modal-operation-save').innerHTML = confirm + ' <i class="material-icons right">send</i>';
+        }
+    });
+
+
     $('select').material_select();
 
     obj.action.setMonth(obj.month);
     obj.action.getOperations();
 
-    document.getElementById('add_operation').addEventListener('click', obj.action.addOperation, false);
-}
-
-function test() {
-    alert('toto');
+    document.getElementById('modal-operation-save').addEventListener('click', obj.action.addOperation, false);
+    document.getElementById('modal-operation-delete').addEventListener('click', obj.action.deleteOperation, false);
 }
 
 /*

@@ -86,9 +86,10 @@ app.get('/test', function (req, res) {
  * operations : Access to oprations
  */
 let apiSession = (req, res, next) => {
-    if (req.session.token == undefined || req.get('token') == undefined
+    if (req.session.token == undefined
+        || req.get('token') == undefined
         || req.session.token != req.get('token')) {
-        res.status(401).send({ error: 'Unauthorized' });
+        res.status(401).send({ error: 'SESSION_EXPIRE' });
         return;
     }
     next();

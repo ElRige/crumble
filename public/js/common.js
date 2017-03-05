@@ -16,7 +16,7 @@ var defaultError = function (json) {
         AUTHENTICATION_ERROR: 'Login ou mot de passe incorrect'
     };
 
-    if (json.error === 'Unauthorized') {
+    if (json.error === 'SESSION_EXPIRE') {
         alert('Vous devez vous connecter');
         window.location = urls.login;
     }

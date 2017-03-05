@@ -12,17 +12,35 @@ const table = 'operations';
 module.exports = {
     insert: (operation, callback) => {
         knex(table)
-            .returning('id')
             .insert(operation)
-            .then((data) => {
-                callback(data[0]);
-            })
-            .catch(function (e) {
-                console.error(e);
-                callback(e);
+            .asCallback((err) => {
+                callback(err);
             });
     },
-    selectByUserId: (userId, startDate, endDate, callback) => {
+    update: (operation, callback) => {
+        knex(table)
+            .update(operation)
+            .where('id', operation.id)
+            .asCallback((err, data) => {
+                callback(err);
+            });
+    },
+    delete: (operation, callback) => {
+        knex(table)
+            .del()
+            .where('id', operation.id)
+            .asCallback((err) => {
+                callback(err);
+            });
+    },
+    selectByUuid: (uuid, callback) => {
+        knex(table)
+            .where('uuid', uuid)
+            .asCallback((err, operations) => {
+                callback(err, operations[0]);
+            });
+    },
+    selectBetweenDateByUserId: (userId, startDate, endDate, callback) => {
         knex(table)
             .where('userId', userId)
             .andWhereBetween('date', [startDate, endDate])
