@@ -13,11 +13,12 @@ document.body.onload = function () {
 var defaultError = function (json) {
 
     var errors = {
-        AUTHENTICATION_ERROR: 'Login ou mot de passe incorrect'
+        AUTHENTICATION_ERROR: 'Login ou mot de passe incorrect',
+        RECONNECT: 'Une erreur c\'est produite, veuillez réessayer'
     };
 
     if (json.error === 'SESSION_EXPIRE') {
-        alert('Vous devez vous connecter');
+        alert('Votre sessions à expirer merci de vous reconnecter');
         window.location = urls.login;
     }
 

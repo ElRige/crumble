@@ -103,7 +103,13 @@ var restapi = {
                     successCallback(req.responseJSON);
                 }
                 else { // NKO
-                    errorCallback(req.responseJSON);
+                    if (req.responseJSON.error === 'SESSION_EXPIRE' && localStorage.getItem('autologinToken')) {
+                        restapi.auth.autologin.login(function (json) {
+                            errorCallback({ error: 'RECONNECT' });
+                        }, errorCallback);
+                    } else {
+                        errorCallback(req.responseJSON);
+                    }
                 }
             }
         };
